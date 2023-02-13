@@ -16,7 +16,7 @@ export default defineEventHandler(async event => {
   } else {
     return {
       data: null,
-      error: 'invalid name or password',
+      error: 'something wrong',
     };
   }
 });

@@ -61,21 +61,28 @@
 definePageMeta({
   layout: 'login',
 });
+const store = useCovidDataStore();
+
 const username = ref<string>('');
 const password = ref<string>('');
 const loginHandler = async event => {
   event.preventDefault();
-  const response = await $fetch('/api/login', {
-    method: 'POST',
-    body: {
-      username: username.value,
-      password: password.value,
-    },
+  await store.login({
+    username: username.value,
+    password: password.value,
   });
-  if (response.error) {
-    console.log(response);
-  } else {
-    navigateTo('/');
-  }
+
+  // const response = await $fetch('/api/login', {
+  //   method: 'POST',
+  //   body: {
+  //     username: username.value,
+  //     password: password.value,
+  //   },
+  // });
+  // if (response.error) {
+  //   console.log(response);
+  // } else {
+  //   navigateTo('/');
+  // }
 };
 </script>
