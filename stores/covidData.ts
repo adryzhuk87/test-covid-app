@@ -26,7 +26,7 @@ export const useCovidDataStore = defineStore('covidDataStore', {
           body: {
             username: this.user.username,
           },
-        })) as CovidApiResponse<UserState, string>;
+        })) as CovidApiResponse<UserState>;
         if (error) {
           logError(error);
         } else {
@@ -46,7 +46,7 @@ export const useCovidDataStore = defineStore('covidDataStore', {
             username: user.username,
             password: user.password,
           },
-        })) as CovidApiResponse<UserState, string>;
+        })) as CovidApiResponse<UserState>;
         if (error) {
           logError(error);
         } else {
@@ -79,7 +79,7 @@ export const useCovidDataStore = defineStore('covidDataStore', {
                   query: {
                     date,
                   },
-                }) as Promise<CovidApiResponse<CovidDataEntity, string>>
+                }) as Promise<CovidApiResponse<CovidDataEntity>>
             )
           );
 

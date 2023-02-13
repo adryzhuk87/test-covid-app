@@ -1,7 +1,7 @@
 import { COOKIE_STORE_KEY } from '@/utils/constants';
 import { CovidApiResponse, UserState } from '@/types/interfaces';
 export default defineEventHandler(
-  async (event): Promise<CovidApiResponse<UserState, string>> => {
+  async (event): Promise<CovidApiResponse<UserState>> => {
     const { username, password } = await readBody(event);
 
     if (username === 'admin' && password === 'admin') {

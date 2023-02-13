@@ -31,7 +31,7 @@ export interface User {
   password: string;
 }
 
-export interface CovidApiResponse<T, K> {
+export interface CovidApiResponse<T> {
   data?: T;
-  error?: K;
+  error?: string;
 }
