@@ -1,3 +1,20 @@
+<script setup lang="ts">
+definePageMeta({
+  layout: 'login',
+  title: 'Login page',
+});
+const store = useCovidDataStore();
+
+const username = ref<string>('');
+const password = ref<string>('');
+const loginHandler = async event => {
+  event.preventDefault();
+  await store.login({
+    username: username.value,
+    password: password.value,
+  });
+};
+</script>
 <template>
   <div
     class="flex h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
@@ -56,21 +73,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-definePageMeta({
-  layout: 'login',
-  title: 'Login page',
-});
-const store = useCovidDataStore();
-
-const username = ref<string>('');
-const password = ref<string>('');
-const loginHandler = async event => {
-  event.preventDefault();
-  await store.login({
-    username: username.value,
-    password: password.value,
-  });
-};
-</script>
