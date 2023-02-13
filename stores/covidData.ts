@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-
-export interface CovidData {
+import { LOCAL_STORE_KEY, DAYS_COUNT } from '@/utils/constants';
+interface CovidData {
   id: string;
   date: string;
   last_update: string;
@@ -15,31 +15,26 @@ export interface CovidData {
   fatality_rate: number;
 }
 
-export type CovidDataList = CovidData[];
+type CovidDataList = CovidData[];
 
-export interface CovidDataState {
+interface CovidDataState {
   list: CovidDataList;
   isRefresh: boolean;
-  countOfDays: number;
 }
 export const useCovidDataStore = defineStore('covidDataStore', {
   state: (): CovidDataState => ({
     list: [],
     isRefresh: true,
-    countOfDays: 5,
   }),
   actions: {
-    removeItemById(id) {
-      this.list = this.list.filter(item => item.id !== id);
+    removeItemById(uuid: string) {
+      this.list = this.list.filter(item => item.uuid !== uuid);
     },
-    refreshCovidData() {
-      this.isRefresh = true;
-    },
-    async fetchCovidData() {
-      if (this.isRefresh) {
+    async fetch(isForce: boolean = false) {
+      if (isForce || this.isRefresh) {
+        console.log('fetch');
         this.isRefresh = false;
-        const dates = generateDates(this.countOfDays);
-        console.log('fetchCovidData');
+        const dates = generateDates(DAYS_COUNT);
         const results = await Promise.all(
           dates.map(date =>
             $fetch('/api/covidData', {
@@ -52,13 +47,15 @@ export const useCovidDataStore = defineStore('covidDataStore', {
         if (results !== null) {
           this.list = results.map(({ data }) => ({
             ...data,
-            id: uuidv4(),
+            uuid: uuidv4(),
           }));
         }
       }
     },
   },
-  persist: true,
+  persist: {
+    key: LOCAL_STORE_KEY,
+  },
 });
 
 if (import.meta.hot) {

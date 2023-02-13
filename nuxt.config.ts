@@ -18,4 +18,10 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  piniaPersistedstate: {
+    cookieOptions: {
+      sameSite: 'strict',
+    },
+    storage: 'localStorage',
+  },
 });

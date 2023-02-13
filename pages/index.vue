@@ -1,16 +1,7 @@
 <script setup lang="ts">
-definePageMeta({
-  middleware: ['auth'],
-});
-const covidDataStore = useCovidDataStore();
-covidDataStore.fetchCovidData();
-const deleteClickHandler = id => {
-  covidDataStore.removeItemById(id);
-};
+const store = useCovidDataStore();
+store.fetch();
 </script>
 <template>
-  <CovidDataTable
-    :list="covidDataStore.list"
-    @delete-click="deleteClickHandler"
-  />
+  <CovidDataTable :list="store.list" @delete-item="store.removeItemById" />
 </template>

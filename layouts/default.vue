@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { CheckIcon } from '@heroicons/vue/20/solid';
-const covidDataStore = useCovidDataStore();
+const store = useCovidDataStore();
+
 const refreshData = () => {
-  covidDataStore.refreshCovidData();
-  covidDataStore.fetchCovidData();
+  store.fetch(true);
 };
 </script>
 

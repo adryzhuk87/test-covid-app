@@ -4,7 +4,7 @@ const props = defineProps({
   list: [],
 });
 
-const emits = defineEmits(['deleteClick']);
+const emits = defineEmits(['deleteItem']);
 </script>
 
 <template>
@@ -38,7 +38,7 @@ const emits = defineEmits(['deleteClick']);
           class="text-center font-medium p-2 border-b-2 border-slate-300 flex items-center justify-center"
         >
           <button
-            @click="$emit('deleteClick', item.id)"
+            @click="$emit('deleteItem', item.id)"
             type="button"
             class="inline-flex items-center rounded-md border border-transparent bg-red-600 p-2 m-0 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           >
