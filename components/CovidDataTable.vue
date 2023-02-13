@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { ArrowPathIcon, TrashIcon } from '@heroicons/vue/20/solid';
-const props = defineProps({
-  list: [],
-});
+import { CovidDataList } from '@/types/interfaces';
+
+const props = defineProps<{ list: CovidDataList }>();
 const emits = defineEmits(['deleteItem']);
 const isLoading = ref<boolean>(false);
 const store = useCovidDataStore();
 
 const isCovidData = computed(() => !store.list.length);
-
 const refreshData = async () => {
   isLoading.value = true;
   await store.fetch(true);

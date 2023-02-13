@@ -1,37 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { LOCAL_STORE_KEY, DAYS_COUNT } from '@/utils/constants';
 import { logError } from '@/utils';
-interface CovidDataEntity {
-  uuid: string;
-  date: string;
-  last_update: string;
-  confirmed: number;
-  confirmed_diff: number;
-  deaths: number;
-  deaths_diff: number;
-  recovered: number;
-  recovered_diff: number;
-  active: number;
-  active_diff: number;
-  fatality_rate: number;
-}
+import { User, CovidDataState } from '@/types/interfaces';
 
-interface UserState {
-  username: string;
-  isLoggedIn: boolean;
-}
-interface User {
-  username: string;
-  password: string;
-}
-
-type CovidDataList = CovidDataEntity[];
-
-interface CovidDataState {
-  list: CovidDataList;
-  isRefresh: boolean;
-  user: UserState;
-}
 export const useCovidDataStore = defineStore('covidDataStore', {
   state: (): CovidDataState => ({
     list: [],
@@ -42,7 +13,7 @@ export const useCovidDataStore = defineStore('covidDataStore', {
     },
   }),
   actions: {
-    async logout() {
+    async logout(): Promise<void> {
       try {
         const { error } = await $fetch('/api/logout', {
           method: 'POST',
@@ -60,7 +31,7 @@ export const useCovidDataStore = defineStore('covidDataStore', {
         logError(error.message);
       }
     },
-    async login(user: User) {
+    async login(user: User): Promise<void> {
       try {
         this.reset();
         const { error } = await $fetch('/api/login', {
@@ -80,14 +51,14 @@ export const useCovidDataStore = defineStore('covidDataStore', {
         logError(error.message);
       }
     },
-    reset() {
+    reset(): void {
       this.$reset();
       localStorage.removeItem(LOCAL_STORE_KEY);
     },
-    removeItemById(uuid: string) {
+    removeItemById(uuid: string): void {
       this.list = this.list.filter(item => item.uuid !== uuid);
     },
-    async fetch(isForce: boolean = false) {
+    async fetch(isForce: boolean = false): Promise<void> {
       try {
         if (isForce || this.isRefresh) {
           this.isRefresh = false;
