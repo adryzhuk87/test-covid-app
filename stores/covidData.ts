@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { LOCAL_STORE_KEY, DAYS_COUNT } from '@/utils/constants';
+import { logError } from '@/utils';
 interface CovidDataEntity {
   uuid: string;
   date: string;
@@ -42,32 +43,41 @@ export const useCovidDataStore = defineStore('covidDataStore', {
   }),
   actions: {
     async logout() {
-      const response = await $fetch('/api/logout', {
-        method: 'POST',
-        body: {
-          username: this.user.username,
-        },
-      });
-      if (response.error) {
-        console.log(response);
-      } else {
-        this.reset();
-        navigateTo('/login');
+      try {
+        const { error } = await $fetch('/api/logout', {
+          method: 'POST',
+          body: {
+            username: this.user.username,
+          },
+        });
+        if (error) {
+          logError(error);
+        } else {
+          this.reset();
+          navigateTo('/login');
+        }
+      } catch (error) {
+        logError(error.message);
       }
     },
     async login(user: User) {
-      const response = await $fetch('/api/login', {
-        method: 'POST',
-        body: {
-          username: user.username,
-          password: user.password,
-        },
-      });
-      if (response.error) {
-        console.log(response);
-      } else {
-        this.user = { username: user.username, isLoggedIn: true };
-        navigateTo('/');
+      try {
+        this.reset();
+        const { error } = await $fetch('/api/login', {
+          method: 'POST',
+          body: {
+            username: user.username,
+            password: user.password,
+          },
+        });
+        if (error) {
+          logError(error);
+        } else {
+          this.user = { username: user.username, isLoggedIn: true };
+          navigateTo('/');
+        }
+      } catch (error) {
+        logError(error.message);
       }
     },
     reset() {
@@ -78,25 +88,28 @@ export const useCovidDataStore = defineStore('covidDataStore', {
       this.list = this.list.filter(item => item.uuid !== uuid);
     },
     async fetch(isForce: boolean = false) {
-      if (isForce || this.isRefresh) {
-        console.log('fetch');
-        this.isRefresh = false;
-        const dates = generateDates(DAYS_COUNT);
-        const results = await Promise.all(
-          dates.map(date =>
-            $fetch('/api/covidData', {
-              query: {
-                date,
-              },
-            })
-          )
-        );
-        if (results !== null) {
-          this.list = results.map(({ data }) => ({
-            ...data,
-            uuid: uuidv4(),
-          }));
+      try {
+        if (isForce || this.isRefresh) {
+          this.isRefresh = false;
+          const dates = generateDates(DAYS_COUNT);
+          const results = await Promise.all(
+            dates.map(date =>
+              $fetch('/api/covidData', {
+                query: {
+                  date,
+                },
+              })
+            )
+          );
+          if (results !== null) {
+            this.list = results.map(({ data }) => ({
+              ...data,
+              uuid: uuidv4(),
+            }));
+          }
         }
+      } catch (error) {
+        logError(error.message);
       }
     },
   },

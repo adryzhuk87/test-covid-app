@@ -30,7 +30,7 @@ const logout = () => {
               class="-ml-1 mr-2 h-5 w-5"
               aria-hidden="true"
             />
-            Logout
+            Logout, {{ store.user.username }}
           </button>
         </div>
       </div>

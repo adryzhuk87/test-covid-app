@@ -15,8 +15,7 @@ export default defineEventHandler(async event => {
     };
   } else {
     return {
-      data: null,
-      error: 'something wrong',
+      error: 'something wrong during login',
     };
   }
 });

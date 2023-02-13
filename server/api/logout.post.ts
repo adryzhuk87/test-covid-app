@@ -4,14 +4,12 @@ export default defineEventHandler(async event => {
 
   if (body.username) {
     deleteCookie(event, COOKIE_STORE_KEY);
-
     return {
       data: 'success',
     };
   } else {
     return {
-      data: null,
-      error: 'something wrong',
+      error: 'something wrong during logout',
     };
   }
 });

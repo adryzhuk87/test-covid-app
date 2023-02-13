@@ -12,7 +12,7 @@
         <h2
           class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
         >
-          Sign in (test: admin / admin);
+          Sign in
         </h2>
       </div>
       <form class="mt-8 space-y-6" @submit="loginHandler">
@@ -60,6 +60,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'login',
+  title: 'Login page',
 });
 const store = useCovidDataStore();
 
@@ -71,18 +72,5 @@ const loginHandler = async event => {
     username: username.value,
     password: password.value,
   });
-
-  // const response = await $fetch('/api/login', {
-  //   method: 'POST',
-  //   body: {
-  //     username: username.value,
-  //     password: password.value,
-  //   },
-  // });
-  // if (response.error) {
-  //   console.log(response);
-  // } else {
-  //   navigateTo('/');
-  // }
 };
 </script>

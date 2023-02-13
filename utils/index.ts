@@ -10,3 +10,7 @@ export const generateDates = (days: number) => {
   }
   return dates;
 };
+
+export const logError = (message: string) => {
+  console.log('ERROR: ', message);
+};

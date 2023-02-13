@@ -10,11 +10,9 @@ export default defineEventHandler(async event => {
     });
     return {
       data,
-      error: null,
     };
   } catch (error) {
     return {
-      data: null,
       error: error.message,
     };
   }
