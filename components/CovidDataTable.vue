@@ -85,5 +85,3 @@ const refreshData = async () => {
     </tbody>
   </table>
 </template>
-
-<style scoped></style>

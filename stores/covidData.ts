@@ -1,7 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 import { LOCAL_STORE_KEY, DAYS_COUNT } from '@/utils/constants';
 import { logError } from '@/utils';
-import { User, CovidDataState } from '@/types/interfaces';
+import {
+  User,
+  CovidDataState,
+  CovidApiResponse,
+  UserState,
+  CovidDataEntity,
+} from '@/types/interfaces';
 
 export const useCovidDataStore = defineStore('covidDataStore', {
   state: (): CovidDataState => ({
@@ -15,12 +21,12 @@ export const useCovidDataStore = defineStore('covidDataStore', {
   actions: {
     async logout(): Promise<void> {
       try {
-        const { error } = await $fetch('/api/logout', {
+        const { error } = (await $fetch('/api/logout', {
           method: 'POST',
           body: {
             username: this.user.username,
           },
-        });
+        })) as CovidApiResponse<UserState, string>;
         if (error) {
           logError(error);
         } else {
@@ -34,17 +40,20 @@ export const useCovidDataStore = defineStore('covidDataStore', {
     async login(user: User): Promise<void> {
       try {
         this.reset();
-        const { error } = await $fetch('/api/login', {
+        const { error, data } = (await $fetch('/api/login', {
           method: 'POST',
           body: {
             username: user.username,
             password: user.password,
           },
-        });
+        })) as CovidApiResponse<UserState, string>;
         if (error) {
           logError(error);
         } else {
-          this.user = { username: user.username, isLoggedIn: true };
+          this.user = {
+            username: data?.username,
+            isLoggedIn: data?.isLoggedIn,
+          };
           navigateTo('/');
         }
       } catch (error) {
@@ -64,17 +73,19 @@ export const useCovidDataStore = defineStore('covidDataStore', {
           this.isRefresh = false;
           const dates = generateDates(DAYS_COUNT);
           const results = await Promise.all(
-            dates.map(date =>
-              $fetch('/api/covidData', {
-                query: {
-                  date,
-                },
-              })
+            dates.map(
+              date =>
+                $fetch('/api/covidData', {
+                  query: {
+                    date,
+                  },
+                }) as Promise<CovidApiResponse<CovidDataEntity, string>>
             )
           );
+
           if (results !== null) {
-            this.list = results.map(({ data }) => ({
-              ...data,
+            this.list = results.map(item => ({
+              ...item.data,
               uuid: uuidv4(),
             }));
           }

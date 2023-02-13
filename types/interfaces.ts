@@ -1,16 +1,16 @@
 export interface CovidDataEntity {
-  uuid: string;
-  date: string;
-  last_update: string;
-  confirmed: number;
-  confirmed_diff: number;
-  deaths: number;
-  deaths_diff: number;
-  recovered: number;
-  recovered_diff: number;
-  active: number;
-  active_diff: number;
-  fatality_rate: number;
+  uuid?: string;
+  date?: string;
+  last_update?: string;
+  confirmed?: number;
+  confirmed_diff?: number;
+  deaths?: number;
+  deaths_diff?: number;
+  recovered?: number;
+  recovered_diff?: number;
+  active?: number;
+  active_diff?: number;
+  fatality_rate?: number;
 }
 
 export type CovidDataList = CovidDataEntity[];
@@ -22,11 +22,16 @@ export interface CovidDataState {
 }
 
 export interface UserState {
-  username: string;
-  isLoggedIn: boolean;
+  username?: string;
+  isLoggedIn?: boolean;
 }
 
 export interface User {
   username: string;
   password: string;
+}
+
+export interface CovidApiResponse<T, K> {
+  data?: T;
+  error?: K;
 }
