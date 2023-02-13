@@ -1,26 +1,27 @@
 {
   "private": true,
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "build": "nuxi build",
+    "dev": "nuxi dev",
+    "generate": "nuxi generate",
+    "preview": "nuxi preview",
+    "postinstall": "nuxi prepare"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^6.3.1",
+    "@nuxtjs/tailwindcss": "^6.4.0",
     "@pinia-plugin-persistedstate/nuxt": "^1.0.0",
     "@tailwindcss/forms": "^0.5.3",
     "autoprefixer": "^10.4.13",
     "nuxt": "^3.1.2",
-    "nuxt-headlessui": "^1.1.1",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.6"
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.15",
     "@pinia/nuxt": "^0.4.6",
+    "date-fns": "^2.29.3",
     "pinia": "^2.0.30",
-    "pinia-plugin-persistedstate": "^3.0.2"
+    "pinia-plugin-persistedstate": "^3.0.2",
+    "uuid": "^9.0.0"
   }
 }

@@ -5,7 +5,6 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
-    'nuxt-headlessui',
   ],
   imports: {
     dirs: ['./stores'],
@@ -13,21 +12,10 @@ export default defineNuxtConfig({
   pinia: {
     autoImports: ['defineStore', 'acceptHMRUpdate'],
   },
-  typescript: {
-    shim: false,
-  },
   postcss: {
     plugins: {
-      'postcss-import': {},
-      'tailwindcss/nesting': {},
       tailwindcss: {},
       autoprefixer: {},
     },
-  },
-  piniaPersistedstate: {
-    cookieOptions: {
-      sameSite: 'strict',
-    },
-    storage: 'localStorage',
   },
 });
